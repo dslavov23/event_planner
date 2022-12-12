@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+{% if user.is_authenticated %}
+    <div class="container-xxl bg-primary hero-header">
+        <div class="container px-lg-5">
+            <div class="row g-5 align-items-end">
+                <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                    <h1 class="text-white mb-4 animated slideInDown">Title! </h1>
+                    <div id="formDesign">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+            <div class="container-xxl bg-primary hero-header">
+        <div class="container px-lg-5">
+            <div class="row g-5 align-items-end">
+                <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                    <h1 class="text-white mb-4 animated slideInDown">You need to be logged in to access this page!</h1>
+                    <p class="text-white pb-3 animated slideInDown">
+                    <div id="formDesign" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    {% if user.is_staff %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">{{ event.name }}</h1>
+                        <div id="formDesign">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Check out below!</strong>
+                                </div>
+                                {% if event.event_url %}
+                                    <img src="{{ event.event_url }}" alt="picture">
+                                {% else %}
+                                    <img src="https://www.algoritmodata.com.mx/wp-content/themes/consultix/images/no-image-found-360x250.png"
+                                         alt="picture">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ event.name }}</h5>
+                                    <p class="card-text">{{ event.school }}</p>
+                                    <p class="card-text">{{ event.school.address }}</p>
+                                    <p class="card-text">{{ event.event_date }}</p>
+                                    <p class="card-text">{{ event.teacher }}</p>
+                                    <p class="card-text">{{ event.description }}</p>
+                                    <a href="#" class="btn btn-primary">Join event!</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="{% url 'event edit' pk=event.pk %}" class="btn btn-primary">Edit event!</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <a href="{% url 'event delete' pk=event.pk %}" class="btn btn-primary">Delete event!</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% elif user.is_authenticated %}
+ <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">{{ event.name }}</h1>
+                        <div id="formDesign">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Check out below!</strong>
+                                </div>
+                                {% if event.event_url %}
+                                    <img src="{{ event.event_url }}" alt="picture">
+                                {% else %}
+                                    <img src="https://www.algoritmodata.com.mx/wp-content/themes/consultix/images/no-image-found-360x250.png"
+                                         alt="picture">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ event.name }}</h5>
+                                    <p class="card-text">{{ event.school }}</p>
+                                    <p class="card-text">{{ event.school.address }}</p>
+                                    <p class="card-text">{{ event.event_date }}</p>
+                                    <p class="card-text">{{ event.teacher }}</p>
+                                    <p class="card-text">{{ event.description }}</p>
+                                    <a href="#" class="btn btn-primary">Join event!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">You need to be logged in to access this
+                            page!</h1>
+                        <p class="text-white pb-3 animated slideInDown">
+                        <div id="formDesign">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

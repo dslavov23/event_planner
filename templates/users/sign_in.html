@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="container-xxl bg-primary hero-header">
+        <div class="container px-lg-5">
+            <div class="row g-5 align-items-end">
+                <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                    <h1 class="text-white mb-4 animated slideInDown">Log in!</h1>
+                    <p class="text-white pb-3 animated slideInDown">
+                    <div id="formDesign" style="color: white;">
+                        <form method="POST"  {% url 'login user' %}>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Username</label>
+                                <label>
+                                    <input type="text" class="form-control" name="username"
+                                           aria-describedby="emailHelp">
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <label>
+                                    <input type="password" class="form-control" name="password">
+                                </label>
+                            </div>
+                            <br>
+                            <button type="submit" style="background: mediumpurple" class="btn-lg btn-primary">Submit
+                            </button>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

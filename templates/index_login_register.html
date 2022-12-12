@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    <div class="container-xxl bg-primary hero-header">
+        <div class="container px-lg-5">
+            <div class="row g-5 align-items-end">
+                <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                    <h1 class="text-white mb-4 animated slideInDown">Login or create new account if you don't have one!</h1>
+                    <div id="formDesign">
+                        <br>
+                        <br>
+                        <div class="d-grid gap-2 col-6">
+                        <a href="{% url 'login user' %}" style="background: mediumpurple" class="btn-lg btn-primary">Login!</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'register' %}" style="background: mediumpurple" class="btn-lg btn-primary">Register!</a>
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'index' %}" style="background: mediumpurple" class="btn-lg btn-primary">Home Page!</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
