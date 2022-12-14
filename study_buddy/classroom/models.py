@@ -1,5 +1,8 @@
+from django.contrib.auth import get_user_model, get_user
 from django.db import models
 from django.contrib.auth.models import User
+
+from study_buddy.members.models import AppUser
 
 
 # Create your models here.
@@ -62,6 +65,32 @@ class Event(models.Model):
         null=True,
         blank=True,
     )
+    students = models.ManyToManyField(AppUser)
 
     def __str__(self):
         return self.name
+
+
+def logged_user(request):
+    current_user = request.user
+    return current_user
+
+
+class JoinedEvent(models.Model):
+    student = models.ForeignKey(AppUser, on_delete=models.RESTRICT)
+    event = models.ForeignKey(Event, on_delete=models.RESTRICT)
+
+# class Nine(models.Model):
+#     pass
+#
+#
+# class Ten(models.Model):
+#     pass
+#
+#
+# class Eleven(models.Model):
+#     pass
+#
+#
+# class Twelve(models.Model):
+#     maths = models.CharField(max_length=50)

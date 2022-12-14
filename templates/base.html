@@ -61,6 +61,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Staff</a>
                     <div class="dropdown-menu m-0">
                         <a href="{% url 'add event' %}" class="dropdown-item">Add new event!</a>
+                        <a href="{% url 'add school' %}" class="dropdown-item">Add new school!</a>
                     </div>
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -74,8 +75,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'profile details' pk=user.pk %}" class="nav-item nav-link ">My profile</a>
+                <a href="{% url 'my events' %}" class="nav-item nav-link ">My events</a>
                 <a href="{% url 'logout user' %}" class="nav-item nav-link ">Logout</a>
             {% elif user.is_authenticated %}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -95,8 +96,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'profile details' pk=user.pk %}" class="nav-item nav-link ">My profile</a>
+                <a href="{% url 'my events' %}" class="nav-item nav-link ">My events</a>
                 <a href="{% url 'logout user' %}" class="nav-item nav-link ">Logout</a>
             {% else %}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -126,7 +127,7 @@
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                             &copy; <a class="border-bottom">Study-Buddy<br><br></a>
-                            <p>Hello {{ user.first_name }}, </p>
+                            <p>Hello {{ user.profile.first_name }}, {{ user.id }}</p>
                             {% if user.is_staff %}
                                 <p>you are authorized as staff member and you can modify the data!</p>
                             {% else %}

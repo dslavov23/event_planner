@@ -25,7 +25,7 @@
                                     <p class="card-text">{{ event.event_date }}</p>
                                     <p class="card-text">{{ event.teacher }}</p>
                                     <p class="card-text">{{ event.description }}</p>
-                                    <a href="#" class="btn btn-primary">Join event!</a>
+                                    <a href="{% url 'join event' %}" class="btn btn-primary">Join event!</a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -34,7 +34,8 @@
                                     <a href="{% url 'event edit' pk=event.pk %}" class="btn btn-primary">Edit event!</a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
 
-                                    <a href="{% url 'event delete' pk=event.pk %}" class="btn btn-primary">Delete event!</a>
+                                    <a href="{% url 'event delete' pk=event.pk %}" class="btn btn-primary">Delete
+                                        event!</a>
 
                                 </div>
                             </div>
@@ -44,7 +45,7 @@
             </div>
         </div>
     {% elif user.is_authenticated %}
- <div class="container-xxl bg-primary hero-header">
+        <div class="container-xxl bg-primary hero-header">
             <div class="container px-lg-5">
                 <div class="row g-5 align-items-end">
                     <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
@@ -67,7 +68,7 @@
                                     <p class="card-text">{{ event.event_date }}</p>
                                     <p class="card-text">{{ event.teacher }}</p>
                                     <p class="card-text">{{ event.description }}</p>
-                                    <a href="#" class="btn btn-primary">Join event!</a>
+                                    <a href="{% url 'join event' %}" class="btn btn-primary">Join event!</a>
                                 </div>
                             </div>
                         </div>

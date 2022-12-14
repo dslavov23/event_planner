@@ -1,14 +1,26 @@
 from django import forms
 
-from study_buddy.classroom.models import Event
+from study_buddy.classroom.models import Event, JoinedEvent, School
+
+
+class AddSchool(forms.ModelForm):
+    class Meta:
+        model = School
+        fields = '__all__'
+        widgets = {'name': forms.TextInput(attrs={'class': 'form-control'}),
+                   'address': forms.TextInput(attrs={'class': 'form-control'}),
+                   'post_code': forms.TextInput(attrs={'class': 'form-control'}),
+                   'phone': forms.TextInput(attrs={'class': 'form-control'}),
+                   'email_address': forms.EmailInput(attrs={'class': 'form-control'}),
+                   }
 
 
 class AddEvent(forms.ModelForm):
     class Meta:
         model = Event
-        fields = '__all__'
+        exclude = ('students',)
         widgets = {'name': forms.TextInput(attrs={'class': 'form-control'}),
-                   'event_date': forms.DateTimeInput(attrs={'class': 'form-control'}),
+                   'event_date': forms.DateInput(attrs={'class': 'form-control'}),
                    'teacher': forms.TextInput(attrs={'class': 'form-control'}),
                    'description': forms.Textarea(attrs={'class': 'form-control'}),
                    'event_url': forms.URLInput(attrs={'class': 'form-control'}),
@@ -16,12 +28,34 @@ class AddEvent(forms.ModelForm):
 
                    }
 
+
 class EditEvent(AddEvent):
     pass
+
 
 class DeleteEvent(forms.ModelForm):
     class Meta:
         model = Event
+        fields = ()
+
+    def save(self, commit=True):
+        if commit:
+            self.instance.delete()
+
+        return self.instance
+
+
+class JoinEventForm(forms.ModelForm):
+    class Meta:
+        model = JoinedEvent
+        fields = '__all__'
+        widgets = {'event': forms.Select(attrs={'class': 'form-control'}),
+                   'student': forms.HiddenInput}
+
+
+class DeleteJoinedEvent(forms.ModelForm):
+    class Meta:
+        model = JoinedEvent
         fields = ()
 
     def save(self, commit=True):
