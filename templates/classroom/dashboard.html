@@ -1,51 +1,103 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block page_content %}
+    <link href="{% static 'css/comment.css' %}" rel="stylesheet">
     {% if user.is_authenticated %}
-    <div class="container-xxl bg-primary hero-header">
-        <div class="container px-lg-5">
-            <div class="row g-5 align-items-end">
-                <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
-                    <h1 class="text-white mb-4 animated slideInDown">You can find all available events below!</h1>
-                    <div id="formDesign">
-                        {% for event in events %}
-                            <div class="card">
-                                <div class="card-header">
-                                    <strong>Check out below!</strong>
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">You can find all available events below!</h1>
+                        <div id="formDesign">
+                            {% for event in events %}
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Check out below!</strong>
+                                    </div>
+                                    {% if event.photo %}
+                                        <img src="{{ event.photo.url }}" alt="picture">
+                                    {% else %}
+                                        <img src="https://www.algoritmodata.com.mx/wp-content/themes/consultix/images/no-image-found-360x250.png"
+                                             alt="picture">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ event.name }}</h5>
+                                        <p class="card-text">{{ event.school }}</p>
+                                        <p class="card-text">{{ event.event_date }}</p>
+                                        <a href="{% url 'event details' pk=event.pk %}"
+                                           class="btn btn-primary">Details!</a>
+                                    </div>
                                 </div>
-                                {% if event.event_url %}
-                                <img src="{{ event.event_url }}" alt="picture">
-                                {% else %}
-                                <img src="https://www.algoritmodata.com.mx/wp-content/themes/consultix/images/no-image-found-360x250.png" alt="picture">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ event.name }}</h5>
-                                    <p class="card-text">{{ event.school }}</p>
-                                    <p class="card-text">{{ event.event_date }}</p>
-                                    <a href="{% url 'event details' pk=event.pk %}" class="btn btn-primary">Details!</a>
+                                <br>
+                                <br>
+                                <div class="comments">
+                                    <div class="top">
+                                        <div class="userDetails">
+                                            <div class="comment-data">
+                                                <p>
+                                                    <!-- Link to User Profile Details Page-->
+                                                    <!-- User First and/or Last Name or username-->
+                                                    {% for i in event.comment_set.all %}
+                                                    <p color="white" >{{ i.user_c.profile.first_name }} </p>
+
+
+
+
+                                                    <p>{{ i.description }}</p><br/><br/><br/><br/>
+                                                        {% endfor %}
+                                                </p>
+                                            </div>
+                                            <span>Sept. 20, 2022, 5:02 p.m.</span><br/><br/><br/><br/>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!-- End Comments Section -->
+                                </div>
+
+                                <!-- Start Add Comments Section -->
+                                <div class="addComments">
+                                <div class="reaction">
+                                    <h3>
+                                        <i class="far fa-smile"></i>
+                                    </h3>
+                                </div>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                <!-- Start Add Comments Form -->
+                                <form method="post" class="adjust_form" action="{% url 'add comment' pk=event.pk %}">
+                                        {{ form.as_p }}
+                                    {% csrf_token %}
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn button" type="submit">Post</button>
+                                </form>
+                            {% endfor %}
+
                             </div>
-                            <br>
-                            <br>
-                            <br>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-        {% else %}
-            <div class="container-xxl bg-primary hero-header">
-        <div class="container px-lg-5">
-            <div class="row g-5 align-items-end">
-                <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
-                    <h1 class="text-white mb-4 animated slideInDown">You need to be logged in to access this page!</h1>
-                    <p class="text-white pb-3 animated slideInDown">
-                    <div id="formDesign" >
+    {% else %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">You need to be logged in to access this
+                            page!</h1>
+                        <p class="text-white pb-3 animated slideInDown">
+                        <div id="formDesign">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}

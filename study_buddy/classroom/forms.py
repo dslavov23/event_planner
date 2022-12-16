@@ -1,6 +1,6 @@
 from django import forms
 
-from study_buddy.classroom.models import Event, JoinedEvent, School
+from study_buddy.classroom.models import Event, JoinedEvent, School, Comment
 
 
 class AddSchool(forms.ModelForm):
@@ -23,9 +23,8 @@ class AddEvent(forms.ModelForm):
                    'event_date': forms.DateInput(attrs={'class': 'form-control'}),
                    'teacher': forms.TextInput(attrs={'class': 'form-control'}),
                    'description': forms.Textarea(attrs={'class': 'form-control'}),
-                   'event_url': forms.URLInput(attrs={'class': 'form-control'}),
-                   'school': forms.Select(attrs={'class': 'form-control'})
-
+                   'school': forms.Select(attrs={'class': 'form-control'}),
+                   'photo': forms.FileInput(attrs={'class': 'form-control'}),
                    }
 
 
@@ -49,7 +48,7 @@ class JoinEventForm(forms.ModelForm):
     class Meta:
         model = JoinedEvent
         fields = '__all__'
-        widgets = {'event': forms.Select(attrs={'class': 'form-control'}),
+        widgets = {'event': forms.HiddenInput(attrs={'class': 'form-control'}),
                    'student': forms.HiddenInput}
 
 
@@ -63,3 +62,16 @@ class DeleteJoinedEvent(forms.ModelForm):
             self.instance.delete()
 
         return self.instance
+
+
+class CommentsModelForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('description',)
+        widgets = {
+            'description': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                },
+            ),
+        }

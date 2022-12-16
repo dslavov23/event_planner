@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from django.core.mail import send_mail
+
 from study_buddy.members.forms import UserRegistrationForm
 
 
@@ -67,5 +69,9 @@ class UserRegistrationView(CreateView):
     def form_valid(self, form):
         result = super().form_valid(form)
         login(self.request, self.object)
+        subject = 'Welcome to Event Planner'
+        message = f"Hey {self.request.user.first_name}. Thank you for registering in Event Planner!!"
+
+        messages.success(self.request, 'Registration successful!')
 
         return result

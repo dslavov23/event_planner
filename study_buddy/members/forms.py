@@ -12,7 +12,7 @@ class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    grade = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    field_order = ('email', 'first_name', 'last_name', 'password1', 'password2', )
 
     class Meta:
         model = UserModel
@@ -27,7 +27,6 @@ class UserRegistrationForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=commit)
         profile = Profile(first_name=self.cleaned_data['first_name'], last_name=self.cleaned_data['last_name'],
-                          grade=self.cleaned_data['grade'],
                           user=user, )
         if commit:
             profile.save()

@@ -476,7 +476,13 @@ button,
 // 1. Textareas should really only resize vertically so they don't break their (horizontal) containers.
 
 textarea {
-  resize: vertical; // 1
+  resize: vertical;
+  height: 30px;
+  width: 385px;
+  border: 1px solid black;
+  border-radius: 10px;
+  position: relative;
+  bottom: 30px;
 }
 
 // 1. Browsers set a default `min-width: min-content;` on fieldsets,
