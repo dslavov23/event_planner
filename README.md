@@ -8,4 +8,4 @@ Staff users have full CRUD operations on managing events and locations for the e
 
 Administrators can manage the whole application.
 
-Gmail is impleneted implemented with Django for recovering lost password and welcoming new users upon registration.
+Gmail is implemented with Django for recovering lost password and welcoming new users upon registration.
