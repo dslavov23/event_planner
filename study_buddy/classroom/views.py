@@ -1,11 +1,11 @@
-from django.contrib.auth import get_user
+from django.contrib.auth import get_user, get_user_model
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView, ListView
 
-from study_buddy.classroom.forms import AddEvent, AddSchool, EditEvent, DeleteEvent, JoinEventForm, DeleteJoinedEvent, \
-    CommentsModelForm
-from study_buddy.classroom.models import Event, JoinedEvent, Comment
+from study_buddy.classroom.forms import AddEvent, AddLocation, EditEvent, DeleteEvent, JoinEventForm, DeleteJoinedEvent, \
+    CommentsModelForm, DeleteCommentsForm
+from study_buddy.classroom.models import Event, JoinedEvent, Comment, Location
 from study_buddy.members.models import Profile
 
 
@@ -19,8 +19,12 @@ def base(request):
     return render(request, 'base.html', context)
 
 
-def index(request):
-    return render(request, 'index.html')
+class Index(TemplateView):
+    template_name = 'index.html'
+
+
+# def index(request):
+#     return render(request, 'index.html')
 
 
 def search_event(request):
@@ -37,13 +41,26 @@ def search_event(request):
     else:
         return render(request, 'classroom/search_event.html')
 
-def my_events(request):
-    events_joined = JoinedEvent.objects.all()
 
-    context = {
-        'events_joined': events_joined,
-    }
-    return render(request, 'classroom/my events.html', context)
+
+class MyEvents(TemplateView):
+    template_name = 'classroom/my_events.html'
+    ordering = ['-date_created']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        events_joined = JoinedEvent.objects.all()
+        context['events_joined'] = events_joined
+        return context
+
+
+# def my_events(request):
+#     events_joined = JoinedEvent.objects.all()
+#
+#     context = {
+#         'events_joined': events_joined,
+#     }
+#     return render(request, 'classroom/my_events.html', context)
 
 
 class JoinEvent(DetailView):
@@ -55,9 +72,9 @@ class JoinEvent(DetailView):
 #     template_name = 'classroom/join_event.html'
 #     model = JoinedEvent
 
-def comment_view(request,pk):
-    comment_model = Event.objects.filter(id=pk).get()
-    form=CommentsModelForm(request.POST)
+def comment_view(request, pk):
+    comment_model = Event.objects.filter(pk=pk).get()
+    form = CommentsModelForm(request.POST)
     if form.is_valid():
         comment = form.save(
             commit=False
@@ -67,10 +84,29 @@ def comment_view(request,pk):
         comment.save()
         return redirect('dashboard')
 
-    context={
+    context = {
         'form': form,
+        'comments_model': comment_model,
     }
-    return render(request,'classroom/event_details.html',context)
+    return render(request, 'classroom/dashboard.html', context)
+
+
+def delete_comment_view(request, pk):
+    comment = Comment.objects.filter(pk=pk).get()
+    if request.method == 'GET':
+        form_delete = DeleteCommentsForm(instance=comment)
+    else:
+        form_delete = DeleteCommentsForm(request.POST, instance=comment)
+        if form_delete.is_valid():
+            form_delete.save()
+            return redirect('dashboard')
+
+    context = {
+        'form_delete': form_delete,
+        'comment': comment,
+    }
+    return render(request, 'classroom/dashboard.html', context)
+
 
 def join_event(request, pk):
     event = Event.objects.filter(pk=pk).get()
@@ -111,34 +147,55 @@ def delete_joined_event(request, pk):
     return render(request, 'classroom/delete_joined_event.html', context)
 
 
-def profile_details(request, pk):
-    profile = Profile.objects.filter(pk=pk).get()
+# Switched to a CBV
+# def profile_details(request, pk):
+#     profile = Profile.objects.filter(pk=pk).get()
+#
+#     context = {
+#         'profile': profile,
+#         'pk': pk,
+#
+#     }
+#     return render(request, 'classroom/my_profile.html', context)
 
-    context = {
-        'profile': profile,
-    }
-    return render(request, 'classroom/my_profile.html', context)
+UserModel = get_user_model()
+class ProfileDetails(DetailView):
+    model = Profile
+    template_name = 'classroom/my_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        pk = self.request.user.id
+        context['profile'] = Profile.objects.filter(pk=pk).get()
+        return context
 
 
-def dashboard(request):
-    event_list = Event.objects.all()
-
-    context = {
-        'events': event_list,
-        'form': CommentsModelForm(),
-    }
-    return render(request, 'classroom/dashboard.html', context)
-
-
-def homework(request):
-    return render(request, 'classroom/homework.html')
+# def dashboard(request):
+#     event_list = Event.objects.all()
+#
+#     context = {
+#         'events': event_list,
+#         'form': CommentsModelForm(),
+#     }
+#     return render(request, 'classroom/dashboard.html', context)
 
 
-def add_school(request):
+class Dashboard(TemplateView):
+    template_name = 'classroom/dashboard.html'
+    model = Event
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['form'] = CommentsModelForm()
+        context['events'] = Event.objects.all()
+        return context
+
+
+def add_location(request):
     if request.method == 'GET':
-        form = AddSchool()
+        form = AddLocation()
     else:
-        form = AddSchool(request.POST)
+        form = AddLocation(request.POST)
         if form.is_valid():
             form.save()
             return redirect('add event')
@@ -167,18 +224,15 @@ def event_add(request):
         'form': form,
     }
 
-    return render(request,'classroom/add_event.html',context,)
+    return render(request, 'classroom/add_event.html', context, )
 
 
 def event_details(request, pk):
     event = Event.objects.filter(pk=pk).get()
-    form = CommentsModelForm()
-
 
     context = {
         'event': event,
         'pk': pk,
-        'form':form,
     }
     return render(request, 'classroom/event_details.html', context)
 
@@ -215,3 +269,5 @@ def event_delete(request, pk):
         'form': form,
     }
     return render(request, 'classroom/event_delete.html', context)
+
+

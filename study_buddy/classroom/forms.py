@@ -1,29 +1,28 @@
 from django import forms
 
-from study_buddy.classroom.models import Event, JoinedEvent, School, Comment
+from study_buddy.classroom.models import Event, JoinedEvent, Location, Comment
 
 
-class AddSchool(forms.ModelForm):
+class AddLocation(forms.ModelForm):
     class Meta:
-        model = School
+        model = Location
         fields = '__all__'
-        widgets = {'name': forms.TextInput(attrs={'class': 'form-control'}),
+        widgets = {'city': forms.TextInput(attrs={'class': 'form-control'}),
                    'address': forms.TextInput(attrs={'class': 'form-control'}),
                    'post_code': forms.TextInput(attrs={'class': 'form-control'}),
-                   'phone': forms.TextInput(attrs={'class': 'form-control'}),
-                   'email_address': forms.EmailInput(attrs={'class': 'form-control'}),
                    }
 
 
 class AddEvent(forms.ModelForm):
     class Meta:
         model = Event
-        exclude = ('students',)
+        fields = '__all__'
         widgets = {'name': forms.TextInput(attrs={'class': 'form-control'}),
-                   'event_date': forms.DateInput(attrs={'class': 'form-control'}),
-                   'teacher': forms.TextInput(attrs={'class': 'form-control'}),
+                   'event_date': forms.DateTimeInput(attrs={'class': 'form-control'}),
                    'description': forms.Textarea(attrs={'class': 'form-control'}),
-                   'school': forms.Select(attrs={'class': 'form-control'}),
+                   'location': forms.Select(attrs={'class': 'form-control'}),
+                   'phone': forms.TextInput(attrs={'class': 'form-control'}),
+                   'email_address': forms.EmailInput(attrs={'class': 'form-control'}),
                    'photo': forms.FileInput(attrs={'class': 'form-control'}),
                    }
 
@@ -75,3 +74,15 @@ class CommentsModelForm(forms.ModelForm):
                 },
             ),
         }
+
+
+class DeleteCommentsForm(CommentsModelForm):
+    class Meta:
+        model = Comment
+        fields = ()
+
+    def save(self, commit=True):
+        if commit:
+            self.instance.delete()
+
+        return self.instance

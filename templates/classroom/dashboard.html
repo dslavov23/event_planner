@@ -22,65 +22,38 @@
                                     {% endif %}
                                     <div class="card-body">
                                         <h5 class="card-title">{{ event.name }}</h5>
-                                        <p class="card-text">{{ event.school }}</p>
+                                        <p class="card-text">{{ event.location }}</p>
                                         <p class="card-text">{{ event.event_date }}</p>
                                         <a href="{% url 'event details' pk=event.pk %}"
                                            class="btn btn-primary">Details!</a>
                                     </div>
                                 </div>
-                                <br>
-                                <br>
-                                <div class="comments">
-                                    <div class="top">
-                                        <div class="userDetails">
-                                            <div class="comment-data">
-                                                <p>
-                                                    <!-- Link to User Profile Details Page-->
-                                                    <!-- User First and/or Last Name or username-->
-                                                    {% for i in event.comment_set.all %}
-                                                    <p color="white" >{{ i.user_c.profile.first_name }} </p>
-
-
-
-
-                                                    <p>{{ i.description }}</p><br/><br/><br/><br/>
-                                                        {% endfor %}
-                                                </p>
-                                            </div>
-                                            <span>Sept. 20, 2022, 5:02 p.m.</span><br/><br/><br/><br/>
+                                {% for i in event.comment_set.all %}
+                                    <div class="card" style="width: 40.8rem;">
+                                        <div class="card-header">
+                                            {{ i.user_c.profile.first_name }} {{ i.user_c.profile.last_name }}: {{ i.description }}<br/><br/>
+                                            {% if user.id == i.user_c.id or user.is_staff %}
+                                                <form method="POST" action="{% url 'delete comment' pk=i.id %}">
+                                                    {{ form_delete }}
+                                                    <input class="btn-sm" style="background: white" type="submit"
+                                                           value="Delete comment"><br/>
+                                                    {% csrf_token %}
+                                                </form>
+                                            {% endif %}
                                         </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">{{ i.publication_date_and_time }}</li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <!-- End Comments Section -->
-                                </div>
-
-                                <!-- Start Add Comments Section -->
-                                <div class="addComments">
-                                <div class="reaction">
-                                    <h3>
-                                        <i class="far fa-smile"></i>
-                                    </h3>
-                                </div>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                <!-- Start Add Comments Form -->
-                                <form method="post" class="adjust_form" action="{% url 'add comment' pk=event.pk %}">
-                                        {{ form.as_p }}
+                                {% endfor %}
+                                <form method="POST" action="{% url 'add comment' pk=event.pk %}">
+                                    {{ form.as_p }}
+                                    <input class="btn submit" style="background: white" type="submit"
+                                           value="Add comment"><br/> <br/>
                                     {% csrf_token %}
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn button" type="submit">Post</button>
                                 </form>
                             {% endfor %}
-
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -31,3 +31,6 @@ class UserRegistrationForm(UserCreationForm):
         if commit:
             profile.save()
         return user
+
+
+

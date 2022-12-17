@@ -6,8 +6,7 @@
             <div class="container px-lg-5">
                 <div class="row g-5 align-items-end">
                     <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
-                        <h1 class="text-white mb-4 animated slideInDown">Are you sure you want to delete this
-                            event? </h1>
+                        <h1 class="text-white mb-4 animated slideInDown">Are you sure you want to delete "{{ event.name }}" ? </h1>
                         <div id="formDesign">
                             <form method="POST"  {% url 'event delete' pk=event.pk %}>
                                 {{ form.as_p }}

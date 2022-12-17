@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'study_buddy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'new_db_study',
+        'NAME': 'event_planner_db',
         'USER': 'postgres-user',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',
@@ -128,7 +128,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'members.AppUser'
 
 cloudinary.config(
-  cloud_name = "dsbjawsn7",
-  api_key = "973779336768327",
-  api_secret = "0P_QvE_-LbRb6JzYEPjytWzcmcA"
+  cloud_name = os.getenv('cloud_name'),
+  api_key = os.getenv('api_key'),
+  api_secret = f"{os.getenv('cloudinary_secret')}"
 )
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')

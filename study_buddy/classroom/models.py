@@ -4,21 +4,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from study_buddy.members.models import AppUser, Profile
 
-UserModel =  get_user_model()
+UserModel = get_user_model()
+
+
 # Create your models here.
 
-class Homework(models.Model):
-    subject = models.CharField(
-        max_length=30,
-    )
-    homework_url = models.URLField()
-
-    def __str__(self):
-        return self.subject
 
 
-class School(models.Model):
-    name = models.CharField(
+class Location(models.Model):
+    city = models.CharField(
         max_length=40,
     )
 
@@ -29,15 +23,9 @@ class School(models.Model):
     post_code = models.CharField(
         max_length=10,
     )
-    phone = models.CharField(
-        max_length=20,
-    )
-    email_address = models.EmailField(
-        'Email Address'
-    )
 
     def __str__(self):
-        return self.name
+        return self.city
 
 
 class Event(models.Model):
@@ -48,21 +36,27 @@ class Event(models.Model):
 
     )
     event_date = models.DateTimeField(
-        'Event Date',
+        'Event Date & Time',
     )
-    school = models.ForeignKey(
-        School,
+    location = models.ForeignKey(
+        Location,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
     )
-    teacher = models.CharField(
-        max_length=40,
-    )
     description = models.TextField(
         blank=True,
     )
-    photo = CloudinaryField('photo')
+    phone = models.CharField(
+        max_length=20,
+    )
+    email_address = models.EmailField(
+        'Email Address'
+    )
+
+    photo = CloudinaryField('photo',
+                            null=True,
+                            blank=True,)
 
     def __str__(self):
         return self.name
@@ -74,11 +68,17 @@ def logged_user(request):
 
 
 class JoinedEvent(models.Model):
-    student = models.ForeignKey(AppUser, on_delete=models.RESTRICT)
-    event = models.ForeignKey(Event, on_delete=models.RESTRICT)
+    student = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.student.profile.first_name} {self.student.profile.last_name} - {self.event}"
+
 
 class Comment(models.Model):
-    description=models.CharField(max_length=50,)
+    description = models.CharField(
+        'Comment',
+        max_length=150,
+    )
     publication_date_and_time = models.DateTimeField(
         auto_now_add=True,
         blank=True,
@@ -95,3 +95,5 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
     )
 
+    def __str__(self):
+        return self.user_c
