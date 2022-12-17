@@ -1,6 +1,6 @@
 # study_buddy
 
-Event Planner is a simple Django web project for planning your events.
+Event Planner is a simple Django web application for planning your events.
 
 Users can register and login. They can post comments, delete their comments, add events to their profile and delete them.
 
