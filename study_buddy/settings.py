@@ -4,21 +4,13 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = f"{os.getenv('secrey_key')}"
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -65,9 +57,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'study_buddy.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('engine'),
@@ -78,9 +67,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -97,9 +83,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -107,9 +90,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
 
@@ -119,18 +99,14 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/mediafiles/'
 
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'members.AppUser'
 
 cloudinary.config(
-  cloud_name = os.getenv('cloud_name'),
-  api_key = os.getenv('api_key'),
-  api_secret = f"{os.getenv('cloudinary_secret')}"
+    cloud_name=os.getenv('cloud_name'),
+    api_key=os.getenv('api_key'),
+    api_secret=f"{os.getenv('cloudinary_secret')}"
 )
 
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
