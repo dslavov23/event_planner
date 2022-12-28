@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    {% if user.is_authenticated %}
+        <div class="container-xxl bg-primary hero-header">
+        <div class="container px-lg-5">
+        <div class="row g-5 align-items-end">
+            <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                <h1 class="text-white mb-4 animated slideInDown">Search for an event! </h1>
+                <div id="formDesign">
+                    <div class="card">
+                        <div class="card-header">
+                            {% if searched %}
+                                You Searched For {{ searched }}
+                            {% else %}
+                                Search Events...
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+
+                            <form method=POST action="{% url 'search event' %}">
+                                {% csrf_token %}
+
+                                <input class="form-control me-2" type="search" placeholder="Search event"
+                                       aria-label="Search" name="searched">
+                                <br/>
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </form>
+
+                            <br/>
+                            {% for event in events %}
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{ event }}
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Venue: {{ event.name }}</h5>
+                                        <p class="card-text">
+                                        <ul>
+                                            <li>Date: {{ event.event_date }}</li>
+
+                                            <li>Venue Website:</li>
+                                            <li>Manager:</li>
+                                            <li>Description:</li>
+                                            <li>Attendees:<br/>
+                                                <br/>
+                                            <a href="{% url 'event details' pk=event.id %}" class="btn btn-primary">View event details</a>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">You need to be logged in to access this
+                            page!</h1>
+                        <p class="text-white pb-3 animated slideInDown">
+                        <div id="formDesign">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

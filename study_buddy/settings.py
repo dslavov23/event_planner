@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('secrey_key')
+SECRET_KEY = f"{os.getenv('secrey_key')}"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -70,10 +70,10 @@ WSGI_APPLICATION = 'study_buddy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'event_planner_db',
-        'USER': 'postgres-user',
-        'PASSWORD': 'password',
+        'ENGINE': os.getenv('engine'),
+        'NAME': os.getenv('name'),
+        'USER': os.getenv('user'),
+        'PASSWORD': f"{os.getenv('password')}",
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

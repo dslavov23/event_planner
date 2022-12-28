@@ -1,0 +1,15 @@
+.adjust_form {
+  resize: vertical;
+  height: 40px;
+  width: 655px;
+  position: relative;
+  bottom: 235px;
+}
+
+button{
+  border: 10px;
+  position: relative;
+  top: -235px;
+  left: 615px;
+  padding: 3px;
+}

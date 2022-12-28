@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    {% if user.is_authenticated and profile.user.id == user.id %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">Your profile details</h1>
+                        <div id="formDesign">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>It's the information you gave us :)</strong>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Name: {{ profile.first_name }} {{ profile.last_name }}</h5>
+                                    <h5 class="card-title">Email: {{ user.email }}</h5>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">You don't have access to this page!</h1>
+                        <p class="text-white pb-3 animated slideInDown">
+                        <div id="formDesign">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

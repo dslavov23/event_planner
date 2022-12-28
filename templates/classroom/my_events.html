@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    {% if user.is_authenticated %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">Your events!</h1>
+                        <div id="formDesign">
+                            {% for events in events_joined %}
+                                {% if events.student.id == user.id and events %}
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong>Check out below!</strong>
+                                        </div>
+                                        {% if events.event.photo.url %}
+                                            <img src="{{ events.event.photo.url }}" alt="picture">
+                                        {% else %}
+                                            <img src="https://www.algoritmodata.com.mx/wp-content/themes/consultix/images/no-image-found-360x250.png"
+                                                 alt="picture">
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ events.event.name }}</h5>
+                                            <p class="card-text">{{ events.event.event_date }}</p>
+                                            <p class="card-text">{{ events.event.description }}</p>
+                                            <p class="card-text">Phone number: {{ events.event.phone }}</p>
+                                            <p class="card-text">Email address: {{ events.event.email_address }}</p>
+                                            <a href="{% url 'delete joined event' pk=events.id %}"
+                                               class="btn btn-primary">Delete event!</a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="container-xxl bg-primary hero-header">
+            <div class="container px-lg-5">
+                <div class="row g-5 align-items-end">
+                    <div class="col-lg-6 text-center text-lg-start" id="headtextbg">
+                        <h1 class="text-white mb-4 animated slideInDown">You need to be logged in to access this
+                            page!</h1>
+                        <p class="text-white pb-3 animated slideInDown">
+                        <div id="formDesign">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
