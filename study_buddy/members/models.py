@@ -34,5 +34,5 @@ class Profile(models.Model):
     """
     first_name = models.CharField(max_length=100, )
     last_name = models.CharField(max_length=100, )
-    user = models.OneToOneField(AppUser, on_delete=models.CASCADE, primary_key=True, )
+    user = models.OneToOneField(AppUser, on_delete=models.CASCADE, primary_key=True,)
 

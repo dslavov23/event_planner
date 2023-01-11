@@ -6,11 +6,11 @@ import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = f"{os.getenv('secrey_key')}"
+SECRET_KEY = f"{os.environ.get('SECRET_KEY')}"
 
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split()
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'cloudinary',
+    'gunicorn',
 
     'study_buddy.members',
     'study_buddy.classroom',
@@ -59,29 +60,31 @@ WSGI_APPLICATION = 'study_buddy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('engine'),
-        'NAME': os.getenv('name'),
-        'USER': os.getenv('user'),
-        'PASSWORD': f"{os.getenv('password')}",
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('DB_ENGINE'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': f"{os.environ.get('DB_PASSWORD')}",
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+if DEBUG:
+    AUTH_PASSWORD_VALIDATORS = []
+else:
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        },
+    ]
 
 LANGUAGE_CODE = 'en-us'
 
@@ -97,6 +100,8 @@ STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
 
+STATIC_ROOT = 'C:/tmp/event_planner/static'
+
 MEDIA_URL = '/mediafiles/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -104,14 +109,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'members.AppUser'
 
 cloudinary.config(
-    cloud_name=os.getenv('cloud_name'),
-    api_key=os.getenv('api_key'),
-    api_secret=f"{os.getenv('cloudinary_secret')}"
+    cloud_name=os.environ.get('cloud_name'),
+    api_key=os.environ.get('api_key_cloudinary'),
+    api_secret=f"{os.environ.get('api_secret')}"
 )
 
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_USE_TLS = bool(int(os.environ.get('EMAIL_USE_TLS', 1)))
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
